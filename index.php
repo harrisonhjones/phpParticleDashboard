@@ -49,6 +49,9 @@ switch ($page) {
         $renderedPage = "device";
         break;
     
+    case 'firmwareUpload':
+        $renderedPage = "404";
+        break;
 
     default:
       // Don't do anything
