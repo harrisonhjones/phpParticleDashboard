@@ -110,7 +110,7 @@ else
           <input type="hidden" name="p" id="p" value="firmwareUpload"/>
           <div class="form-group">
             <label for="device-id" class="control-label">Device ID:</label>
-            <input type="text" class="form-control" name="device-id" id="device-id">
+            <input type="text" class="form-control" name="device-id" id="device-id" disabled>
           </div>
           <div class="form-group">
             <label for="firmwareFile">File input</label>
