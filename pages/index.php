@@ -60,11 +60,27 @@ if($spark->listDevices() == true)
           <?php echo $device['last_heard']; ?>
         </td>
         <td>
-          <?php echo $device['connected']; ?>
+          <?php
+            if($device['connected'])
+              echo "Yes";
+            else
+              echo "No";
+          ?>
         </td>
         <td>
+          <?php
+            if($device['connected'])
+            {
+          ?>
           <a href="?p=device&deviceID=<?php echo $device['id']; ?>"><button type="button" class="btn btn-default">View Device</button></a>
           <button type="button" class="btn btn-default" data-toggle="modal" data-target="#firmwareModal" data-device-name="<?php echo $device['name']; ?>" data-device-id="<?php echo $device['id']; ?>">Upload Firmware</button>
+            <?php
+          }
+          else
+          {
+            echo "Offline devices cann't be manipulated";
+          }
+          ?>
         </td>
       </tr>
     
@@ -90,7 +106,7 @@ else
         <h4 class="modal-title" id="firmwareModal">Upload Firmware</h4>
       </div>
       <div class="modal-body">
-        <form method="POST" action="index.php">
+        <form method="POST" action="index.php" enctype="multipart/form-data">
           <input type="hidden" name="p" id="p" value="firmwareUpload"/>
           <div class="form-group">
             <label for="device-id" class="control-label">Device ID:</label>
