@@ -14,7 +14,6 @@ $spark->setDebugType("HTML");
 // Set our access token (set in the phpConfig.config.php file)
 $spark->setAccessToken($_SESSION['accessToken']);
 
-
 ?>
 <div class="container">
   <div class="starter-template">
@@ -72,8 +71,11 @@ if($spark->listDevices() == true)
             if($device['connected'])
             {
           ?>
-          <a href="?p=device&deviceID=<?php echo $device['id']; ?>"><button type="button" class="btn btn-default">View Device</button></a>
-          <button type="button" class="btn btn-default" data-toggle="modal" data-target="#firmwareModal" data-device-name="<?php echo $device['name']; ?>" data-device-id="<?php echo $device['id']; ?>">Upload Firmware</button>
+          <a href="?p=device&deviceID=<?php echo $device['id']; ?>">View Device</a><br/>
+          Signal (<a href="?p=signal_on&deviceID=<?php echo $device['id']; ?>">On</a> | <a href="?p=signal_off&deviceID=<?php echo $device['id']; ?>">Off</a>)<br/>
+
+          <a href="#" data-toggle="modal" data-target="#firmwareModal" data-device-name="<?php echo $device['name']; ?>" data-device-id="<?php echo $device['id']; ?>">Upload Firmware</a><br/>
+
             <?php
           }
           else
@@ -87,6 +89,23 @@ if($spark->listDevices() == true)
 <?php
     }
     ?>
+    <tr>
+    <th>
+      ID
+    </th>
+    <th>
+      Name
+    </th>
+    <th>
+      Last Heard
+    </th>
+    <th>
+      Connected?
+    </th>
+    <th>
+      Device Actions
+    </th>
+  </tr>
     </table>
     <?php
 }
@@ -110,7 +129,7 @@ else
           <input type="hidden" name="p" id="p" value="firmwareUpload"/>
           <div class="form-group">
             <label for="device-id" class="control-label">Device ID:</label>
-            <input type="text" class="form-control" name="device-id" id="device-id" disabled>
+            <input type="text" class="form-control" name="device-id" id="device-id">
           </div>
           <div class="form-group">
             <label for="firmwareFile">File input</label>
