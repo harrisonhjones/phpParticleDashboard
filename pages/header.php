@@ -58,6 +58,7 @@
                         {
                             ?>
                             <li><a href="?p=devices">View Your Devices</a></li>
+                            <li><a href="?p=tokens">View Your Tokens</a></li>
                             <li><a href="?p=logout">Logout</a></li>
                             <?php
                         }
