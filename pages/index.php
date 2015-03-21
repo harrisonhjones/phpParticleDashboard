@@ -17,7 +17,7 @@ $spark->setAccessToken($_SESSION['accessToken']);
 ?>
 <div class="container">
   <div class="starter-template">
-    <h1>Your Devices</h1>
+    <h1>Your Devices <a href="#" data-toggle="modal" data-target="#addDeviceModal"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a></h1>
   </div>
 </div>
 
@@ -38,7 +38,7 @@ if($spark->listDevices() == true)
       Last Heard
     </th>
     <th>
-      Connected?
+      Connected
     </th>
     <th>
       Device Actions
@@ -61,9 +61,9 @@ if($spark->listDevices() == true)
         <td>
           <?php
             if($device['connected'])
-              echo "Yes";
+              echo "<span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\"></span>";
             else
-              echo "No";
+              echo "<span class=\"glyphicon glyphicon-eye-close\" aria-hidden=\"true\"></span>";
           ?>
         </td>
         <td>
@@ -71,18 +71,17 @@ if($spark->listDevices() == true)
             if($device['connected'])
             {
           ?>
-          <a href="?p=device&deviceID=<?php echo $device['id']; ?>">View Device</a><br/>
-          Signal (<a href="?p=signal_on&deviceID=<?php echo $device['id']; ?>">On</a> | <a href="?p=signal_off&deviceID=<?php echo $device['id']; ?>">Off</a>)<br/>
+          <a href="?p=device&deviceID=<?php echo $device['id']; ?>"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> View Device</a><br/>
+          
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Signal (<a href="?p=signal_on&deviceID=<?php echo $device['id']; ?>">On</a> | <a href="?p=signal_off&deviceID=<?php echo $device['id']; ?>">Off</a>)<br/>
 
-          <a href="#" data-toggle="modal" data-target="#firmwareModal" data-device-name="<?php echo $device['name']; ?>" data-device-id="<?php echo $device['id']; ?>">Upload Firmware</a><br/>
+          <a href="#" data-toggle="modal" data-target="#firmwareModal" data-device-name="<?php echo $device['name']; ?>" data-device-id="<?php echo $device['id']; ?>"><span class="glyphicon glyphicon-upload" aria-hidden="true"></span> Upload Firmware</a><br/>
+
 
             <?php
           }
-          else
-          {
-            echo "Offline devices cann't be manipulated";
-          }
           ?>
+          <a href="#" data-toggle="modal" data-target="#removeDeviceModal" data-device-name="<?php echo $device['name']; ?>" data-device-id="<?php echo $device['id']; ?>"><span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span> Remove Device</a><br/>
         </td>
       </tr>
     
@@ -100,13 +99,14 @@ if($spark->listDevices() == true)
       Last Heard
     </th>
     <th>
-      Connected?
+      Connected
     </th>
     <th>
       Device Actions
     </th>
   </tr>
     </table>
+    
     <?php
 }
 else
@@ -116,8 +116,9 @@ else
 ?>
   </div>
 
+
 <!-- Modal -->
-<<div class="modal fade" id="firmwareModal" tabindex="-1" role="dialog" aria-labelledby="firmwareModal" aria-hidden="true">
+<div class="modal fade" id="firmwareModal" tabindex="-1" role="dialog" aria-labelledby="firmwareModal" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -128,8 +129,8 @@ else
         <form method="POST" action="index.php" enctype="multipart/form-data">
           <input type="hidden" name="p" id="p" value="firmwareUpload"/>
           <div class="form-group">
-            <label for="device-id" class="control-label">Device ID:</label>
-            <input type="text" class="form-control" name="device-id" id="device-id">
+            <label for="deviceID" class="control-label">Device ID:</label>
+            <input type="text" class="form-control" name="deviceID" id="deviceID">
           </div>
           <div class="form-group">
             <label for="firmwareFile">File input</label>
@@ -147,7 +148,59 @@ else
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="addDeviceModal" tabindex="-1" role="dialog" aria-labelledby="addDeviceModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="addDeviceModal">Claim A New Device</h4>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="index.php">
+          <input type="hidden" name="p" id="p" value="newDevice"/>
+          <div class="form-group">
+            <label for="deviceName" class="control-label">Device Name:</label>
+            <input type="text" class="form-control" name="deviceName" id="deviceName">
+          </div>
+          <div class="form-group">
+            <label for="deviceID" class="control-label">Device ID:</label>
+            <input type="text" class="form-control" name="deviceID" id="deviceID">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal" type="reset">Close</button>
+        <button class="btn btn-primary" type="submit">Claim the Device</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Modal -->
+<div class="modal fade" id="removeDeviceModal" tabindex="-1" role="dialog" aria-labelledby="removeDeviceModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="removeDeviceModal">Confirm Remove Device</h4>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="index.php">
+          <input type="hidden" name="p" id="p" value="removeDevice"/>
+          <div class="form-group">
+            <label for="deviceID" class="control-label">Device ID:</label>
+            <input type="text" class="form-control" name="deviceID" id="deviceID">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" data-dismiss="modal" type="reset">Keep Device</button>
+        <button class="btn btn-danger" type="submit">Remove Device</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?php
 $endPageContent = "
@@ -161,7 +214,20 @@ $('#firmwareModal').on('show.bs.modal', function (event) {
   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
   var modal = $(this)
   modal.find('.modal-title').text('Upload firmware to \'' + deviceName + '\'')
-  modal.find('#device-id').val(deviceID)
+  modal.find('#deviceID').val(deviceID)
+})
+
+$('#removeDeviceModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var deviceID = button.data('device-id') // Extract info from data-* attributes
+  var deviceName = button.data('device-name') // Extract info from data-* attributes
+
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('Confirm Remove Device \'' + deviceName + '\' (' + deviceID + ')')
+  modal.find('#deviceID').val(deviceID)
 })
 </script>";
 ?>
+

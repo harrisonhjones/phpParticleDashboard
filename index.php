@@ -50,7 +50,29 @@ switch ($page) {
         break;
     
     case 'firmwareUpload':
-        $renderedPage = "404";
+        $renderedPage = "firmwareUpload";
+        break;
+
+    case 'signal_on':
+        $action = 'signal_on';
+        $renderedPage = 'deviceSignal';
+        break;
+
+    case 'signal_off':
+        $action = 'signal_off';
+        $renderedPage = 'deviceSignal';
+        break;
+
+    case 'tokens':
+        $renderedPage = 'tokens';
+        break;
+
+    case 'newDevice':
+        $renderedPage = 'claimDevice';
+        break;
+
+    case 'removeDevice':
+        $renderedPage = 'removeDevice';
         break;
 
     default:
