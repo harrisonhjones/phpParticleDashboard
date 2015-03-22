@@ -11,6 +11,8 @@ error_reporting(-1);
         Written by Harrison H. Jones
         <br/>
         <a href="https://github.com/harrisonhjones/phpSparkDashboard">Fork on GitHub</a>
+        <br/>
+        Version 0.1.0
     </div>
 
     <!-- Bootstrap core JavaScript
