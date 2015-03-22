@@ -1,5 +1,4 @@
 <?php
-
 /*
  * @project phpSparkDashboard
  * @file    index.php
@@ -8,13 +7,29 @@
  * @brief   A dashboard example using the phpSpark class
  */
 
+/* For Debugging, Comment this in
+ini_set('display_errors',1);
+ini_set('display_startup_errors',1);
+error_reporting(-1);
+*/
+
 session_start();
 
-$page = $_GET['p'];
-
-if(!$page)
-  $page = $_POST['p'];
-
+if(isset($_GET['p']))
+{
+  $page = $_GET['p'];
+}
+else
+{
+  if(isset($_POST['p']))
+  {
+    $page = $_POST['p'];
+  }
+  else
+  {
+    $page = "index";
+  }
+}
 
 $renderedPage = "login";
 
