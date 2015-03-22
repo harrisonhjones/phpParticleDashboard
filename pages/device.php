@@ -40,7 +40,7 @@ if($spark->getDeviceInfo($deviceID) == true)
 
   if($_POST['function'])
   {
-    if($spark->doFunction($deviceID, $_POST['function'], $_POST['parameter']) == true)
+    if($spark->callFunction($deviceID, $_POST['function'], $_POST['parameter']) == true)
     {
       $functionResult = $spark->getResult();
       echo "<div class=\"alert alert-success\" role=\"alert\">Function '" . $_POST['function'] . "' called with parameter '" . $_POST['parameter'] . "'. Return value = '" . $functionResult['return_value'] . "'</div>";
