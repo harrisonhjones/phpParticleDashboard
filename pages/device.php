@@ -54,7 +54,7 @@ if($spark->getDeviceInfo($deviceID) == true)
 </div>
 
   <div class="container">
-    <h2>Variables</h2>
+    <h2>Variables<!-- (<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>)--></h2>
     <table class="table table-striped">
       <tr>
         <th>
@@ -142,5 +142,30 @@ else
     echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $spark->getError() . ". Source: " . $spark->getErrorSource() . "</div>";
 }
 ?>
+  </div>
+
+  <div class="container">
+    <h2>Events</h2>
+    <table class="table table-striped">
+      <tr>
+        <th>
+          Name
+        </th>
+        <th>
+          Data
+        </th>
+        <th>
+          TTL
+        </th>
+        <th>
+          Published Timestamp
+        </th>
+      </tr>
+      <tr>
+        <td colspan="4">
+          Not Yet Implemented
+        </td>
+      </tr>
+    </table>
   </div>
 
