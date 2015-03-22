@@ -1,3 +1,6 @@
 # All tests
 
 tests/*
+
+# The main phpSpark class
+phpSpark.class.php
