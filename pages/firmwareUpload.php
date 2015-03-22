@@ -34,7 +34,7 @@ if ($_FILES["firmwareFile"]["error"] > 0)
 }
 else
 {
-    $target_path = "tempFirmware/" . uniqid() . "." . $ext; 
+    $target_path = 'tempFirmware/' . uniqid() . "." . $ext; 
     //print_r_html($_FILES);
     //echo "Target: " . $target_path . "<BR/>";
     //echo "Temp Name: " . $_FILES['file']['tmp_name'] . "<BR/>";
@@ -51,8 +51,9 @@ if($fileError == false)
 {
     if ($ext == "bin")
     {
-        $firmwareUploadResult = $spark->uploadFirmware($deviceID,$target_path,$target_path,true);
-        unlink($target_path);
+
+        $firmwareUploadResult = $spark->uploadFirmware($deviceID,"firmware.bin",$target_path,true);
+        // unlink($target_path);
     }
     else
     {
