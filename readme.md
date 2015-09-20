@@ -5,8 +5,10 @@ A dashboard example using the phpSpark class
 
 ## Installation ##
 
-- GIT clone or download a zip of the repo and unzip into your project director
-- Upload to your web server and visit using a web browser
+- GIT clone or download a zip of the repo and unzip into your project directory
+- Upload to your web server
+- Grab [this copy](https://gist.github.com/harrisonhjones/c9f612457000f3abccb6) of spark.class.php and upload into your project directory
+- Visit index.php in a browser.
 
 ## Demo ##
 
