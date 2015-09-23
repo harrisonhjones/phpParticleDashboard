@@ -12,7 +12,7 @@ error_reporting(-1);
         <br/>
         <a href="https://github.com/harrisonhjones/phpSparkDashboard">Fork on GitHub</a>
         <br/>
-        Version 0.1.0
+        Version 0.1.1
     </div>
 
     <!-- Bootstrap core JavaScript
