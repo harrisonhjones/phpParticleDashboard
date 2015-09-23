@@ -70,7 +70,7 @@ error_reporting(-1);
                         {
                             ?>
                             <li><a href="?p=login">Login</a></li>
-                            <?
+                            <?php
                         }
                         ?>
                         
