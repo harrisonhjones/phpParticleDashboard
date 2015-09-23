@@ -14,22 +14,8 @@ error_reporting(-1);
 */
 
 session_start();
-
-if(isset($_GET['p']))
-{
-  $page = $_GET['p'];
-}
-else
-{
-  if(isset($_POST['p']))
-  {
-    $page = $_POST['p'];
-  }
-  else
-  {
-    $page = "index";
-  }
-}
+// checks the post and gets for p otherwise sets it to index
+$page = isset($_REQUEST['p']) ? $_REQUEST['p'] : 'index';
 
 $renderedPage = "login";
 

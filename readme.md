@@ -18,16 +18,16 @@ Feel free to play around with the [demo](http://projects.harrisonhjones.com/phpS
 
 ### Login Page ###
 Simply login with your access token (get it from http://spark.io/build)
-![](LoginPage.png)
+![](images/LoginPage.png)
 
 ### Device List Page ###
 On the devices page you can see all Spark devices associated with your access token
-![](DevicesPage.png)
+![](images/DevicesPage.png)
 
 ### Device Info Page ###
 On the device info page you can look at a particular device. Available information include known Spark Variables (values update if you refresh the page) and Spark Functions. Send parameters to those functions by filling in the parameter text box and pressing the "Submit" button
-![](DeviceInfoPage.png)
+![](images/DeviceInfoPage.png)
 
 ### Successful Function Call ###
 When you successfully submit a function call to the Spark Cloud you get a alert with the return value.
-![](FunctionSubmitPage.png)
+![](images/FunctionSubmitPage.png)
