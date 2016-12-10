@@ -6,18 +6,23 @@ ini_set('display_startup_errors',1);
 error_reporting(-1);
 */
 
-if((@include 'phpSpark.class.php') === false)  die("Unable to load phpSpark class");
+if((@include 'phpParticle.class.php') === false)  die("Unable to load phpParticle class");
 
-// Grab a new instance of our phpSpark object
-$spark = new phpSpark();
+// Grab a new instance of our phpParticle object
+$particle = new phpParticle();
 
-// Set the internal debug to true. Note, calls made to $spark->debug(...) by you ignore this line and display always
-$spark->setDebug(false);
-// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $spark->debug(...) display as set here
-$spark->setDebugType("HTML");
+// Set the internal debug to true. Note, calls made to $particle->debug(...) by you ignore this line and display always
+$particle->setDebug(false);
+// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $particle->debug(...) display as set here
+$particle->setDebugType("HTML");
 
 // Set our access token (set in the phpConfig.config.php file)
-$spark->setAccessToken($_SESSION['accessToken']);
+$pieces = explode("::", $_SESSION['accessToken']);
+
+$particle->setAccessToken($pieces[0]);
+if(count($pieces) == 2) {
+  $particle->setProductSlug($pieces[1]);
+}
 
 // Handle the firmware upload
 $parts = explode(".",$_FILES['firmwareFile']['name']);
@@ -52,13 +57,13 @@ if($fileError == false)
     if ($ext == "bin")
     {
 
-        $firmwareUploadResult = $spark->uploadFirmware($deviceID,"firmware.bin",$target_path,true);
+        $firmwareUploadResult = $particle->uploadFirmware($deviceID,"firmware.bin",$target_path,true);
         // unlink($target_path);
     }
     else
     {
         $fileError = "Non binary firmware files are not yet supported! Please upload a compiled binary as a .bin file";
-        //$firmwareUploadResult = $spark->uploadFirmware($_POST['device-id'],$target_path,false);
+        //$firmwareUploadResult = $particle->uploadFirmware($_POST['device-id'],$target_path,false);
         unlink($target_path);
     }
 }
@@ -81,16 +86,16 @@ if($fileError == false)
         {
             ?>
             <div class="alert alert-success" role="alert">Success, your firmware is being uploaded to your device right now!</div>
-            <b>Spark Cloud Response</b>
-            <div class="well"><?php $spark->debug_r($spark->getResult()); ?></div>
+            <b>Particle Cloud Response</b>
+            <div class="well"><?php $particle->debug_r($particle->getResult()); ?></div>
             <?php
         }
         else
         {
             ?>
             <div class="alert alert-danger" role="alert">Uh Oh! Something went wrong with the firmware upload. See the error text below.</div>
-            <b>Spark Cloud Response</b>
-            <div class="well">Error: <?php $spark->debug("Error: " . $spark->getError()); ?><br/><?php $spark->debug("Error Source" . $spark->getErrorSource()); ?></div>
+            <b>Particle Cloud Response</b>
+            <div class="well">Error: <?php $particle->debug("Error: " . $particle->getError()); ?><br/><?php $particle->debug("Error Source" . $particle->getErrorSource()); ?></div>
             <?php
         }
     }

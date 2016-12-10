@@ -1,23 +1,28 @@
 <?php
 // device.php
-/* For Debugging, Comment this in
+/*For Debugging, Comment this in
 ini_set('display_errors',1);
 ini_set('display_startup_errors',1);
 error_reporting(-1);
 */
 
-if((@include 'phpSpark.class.php') === false)  die("Unable to load phpSpark class");
+if((@include 'phpParticle.class.php') === false)  die("Unable to load phpParticle class");
 
-// Grab a new instance of our phpSpark object
-$spark = new phpSpark();
+// Grab a new instance of our phpParticle object
+$particle = new phpParticle();
 
-// Set the internal debug to true. Note, calls made to $spark->debug(...) by you ignore this line and display always
-$spark->setDebug(false);
-// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $spark->debug(...) display as set here
-$spark->setDebugType("HTML");
+// Set the internal debug to true. Note, calls made to $particle->debug(...) by you ignore this line and display always
+$particle->setDebug(false);
+// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $particle->debug(...) display as set here
+$particle->setDebugType("HTML");
 
 // Set our access token (set in the phpConfig.config.php file)
-$spark->setAccessToken($_SESSION['accessToken']);
+$pieces = explode("::", $_SESSION['accessToken']);
+
+$particle->setAccessToken($pieces[0]);
+if(count($pieces) == 2) {
+  $particle->setProductSlug($pieces[1]);
+}
 
 // Grab a specific device's info
 $deviceID = $_GET['deviceID'];
@@ -26,9 +31,9 @@ if(!$deviceID)
   $deviceID = $_POST['deviceID'];
 }
 
-if($spark->getDeviceInfo($deviceID) == true)
+if($particle->getAttributes($deviceID) == true)
 {
-  $results = $spark->getResult();
+  $results = $particle->getResult();
 ?>
 <div class="container">
   <div class="starter-template">
@@ -40,14 +45,14 @@ if($spark->getDeviceInfo($deviceID) == true)
 
   if($_POST['function'])
   {
-    if($spark->callFunction($deviceID, $_POST['function'], $_POST['parameter']) == true)
+    if($particle->callFunction($deviceID, $_POST['function'], $_POST['parameter']) == true)
     {
-      $functionResult = $spark->getResult();
+      $functionResult = $particle->getResult();
       echo "<div class=\"alert alert-success\" role=\"alert\">Function '" . $_POST['function'] . "' called with parameter '" . $_POST['parameter'] . "'. Return value = '" . $functionResult['return_value'] . "'</div>";
     }
     else
     {
-      echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $spark->getError() . ". Source: " . $spark->getErrorSource() . "</div>";
+      echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $particle->getError() . ". Source: " . $particle->getErrorSource() . "</div>";
     }
   }
   ?>
@@ -79,15 +84,15 @@ if($spark->getDeviceInfo($deviceID) == true)
         </td>
         <td>
           <?php
-          if($spark->getVariable($deviceID, $variableKey) == true)
+          if($particle->getVariable($deviceID, $variableKey) == true)
           {
-              $resVariable = $spark->getResult();
+              $resVariable = $particle->getResult();
               echo $resVariable['result'];
           }
           else
           {
-              $spark->debug("Error: " . $spark->getError());
-              $spark->debug("Error Source" . $spark->getErrorSource());
+              $particle->debug("Error: " . $particle->getError());
+              $particle->debug("Error Source" . $particle->getErrorSource());
           }
           ?>
         </td>
@@ -139,33 +144,37 @@ if($spark->getDeviceInfo($deviceID) == true)
 }
 else
 {
-    echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $spark->getError() . ". Source: " . $spark->getErrorSource() . "</div>";
+    echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $particle->getError() . ". Source: " . $particle->getErrorSource() . "</div>";
 }
 ?>
   </div>
 
   <div class="container">
-    <h2>Events</h2>
+    <h2>Device Information</h2>
     <table class="table table-striped">
       <tr>
         <th>
-          Name
+          Key
         </th>
         <th>
-          Data
-        </th>
-        <th>
-          TTL
-        </th>
-        <th>
-          Published Timestamp
+          Value
         </th>
       </tr>
-      <tr>
-        <td colspan="4">
-          Not Yet Implemented
+      
+      <?php 
+      foreach ($results as $key => $value) {
+        ?>
+        <tr>
+        <td>
+          <?php echo $key;?>
         </td>
-      </tr>
+        <td>
+          <?php echo $value;?>
+        </td>
+        </tr>
+        <?php
+      }
+      ?>
+      
     </table>
   </div>
-

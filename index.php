@@ -1,10 +1,10 @@
 <?php
 /*
- * @project phpSparkDashboard
+ * @project phpParticleDashboard
  * @file    index.php
  * @authors Harrison Jones (harrison@hhj.me)
  * @date    March 13, 2015
- * @brief   A dashboard example using the phpSpark class
+ * @brief   A dashboard example using the phpParticle class
  */
 
 /* For Debugging, Comment this in

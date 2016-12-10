@@ -18,7 +18,7 @@ error_reporting(-1);
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>phpSpark Example Dashboard</title>
+        <title>phpParticle Example Dashboard</title>
 
         <!-- Bootstrap core CSS -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -52,7 +52,7 @@ error_reporting(-1);
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="?">phpSpark Dashboard Example</a>
+                    <a class="navbar-brand" href="?">phpParticle Dashboard Example</a>
                 </div>
                 
                 <div id="navbar" class="collapse navbar-collapse">

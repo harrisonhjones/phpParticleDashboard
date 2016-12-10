@@ -6,18 +6,23 @@ ini_set('display_startup_errors',1);
 error_reporting(-1);
 */
 
-if((@include 'phpSpark.class.php') === false)  die("Unable to load phpSpark class");
+if((@include 'phpParticle.class.php') === false)  die("Unable to load phpParticle class");
 
-// Grab a new instance of our phpSpark object
-$spark = new phpSpark();
+// Grab a new instance of our phpParticle object
+$particle = new phpParticle();
 
-// Set the internal debug to true. Note, calls made to $spark->debug(...) by you ignore this line and display always
-$spark->setDebug(false);
-// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $spark->debug(...) display as set here
-$spark->setDebugType("HTML");
+// Set the internal debug to true. Note, calls made to $particle->debug(...) by you ignore this line and display always
+$particle->setDebug(false);
+// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $particle->debug(...) display as set here
+$particle->setDebugType("HTML");
 
 // Set our access token (set in the phpConfig.config.php file)
-$spark->setAccessToken($_SESSION['accessToken']);
+$pieces = explode("::", $_SESSION['accessToken']);
+
+$particle->setAccessToken($pieces[0]);
+if(count($pieces) == 2) {
+  $particle->setProductSlug($pieces[1]);
+}
 
 ?>
 <div class="container">
@@ -28,7 +33,7 @@ $spark->setAccessToken($_SESSION['accessToken']);
 
 <div class="container">
 <?php
-if($spark->listTokens() == true)
+if($particle->listTokens() == true)
 {
   ?>
 <table class="table table-striped">
@@ -48,7 +53,7 @@ if($spark->listTokens() == true)
   </tr>
 
 <?php
-    foreach ($spark->getResult() as $token) {
+    foreach ($particle->getResult() as $token) {
 ?>
       <tr>
         <td>
@@ -92,7 +97,7 @@ if($spark->listTokens() == true)
 }
 else
 {
-    echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $spark->getError() . ". Source: " . $spark->getErrorSource() . "</div>";
+    echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $particle->getError() . ". Source: " . $particle->getErrorSource() . "</div>";
 }
 ?>
   </div>

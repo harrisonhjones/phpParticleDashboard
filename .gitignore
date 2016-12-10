@@ -2,5 +2,8 @@
 
 tests/*
 
-# The main phpSpark class
-phpSpark.class.php
+# The main phpParticle class
+phpParticle.class.php
+
+# Errors
+error_log

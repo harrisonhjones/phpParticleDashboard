@@ -6,18 +6,23 @@ ini_set('display_startup_errors',1);
 error_reporting(-1);
 */
 
-if((@include 'phpSpark.class.php') === false)  die("Unable to load phpSpark class");
+if((@include 'phpParticle.class.php') === false)  die("Unable to load phpParticle class");
 
-// Grab a new instance of our phpSpark object
-$spark = new phpSpark();
+// Grab a new instance of our phpParticle object
+$particle = new phpParticle();
 
-// Set the internal debug to true. Note, calls made to $spark->debug(...) by you ignore this line and display always
-$spark->setDebug(false);
-// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $spark->debug(...) display as set here
-$spark->setDebugType("HTML");
+// Set the internal debug to true. Note, calls made to $particle->debug(...) by you ignore this line and display always
+$particle->setDebug(false);
+// Set the debug calls to display pretty HTML format. Other option is "TEXT". Note, calls made to $particle->debug(...) display as set here
+$particle->setDebugType("HTML");
 
 // Set our access token (set in the phpConfig.config.php file)
-$spark->setAccessToken($_SESSION['accessToken']);
+$pieces = explode("::", $_SESSION['accessToken']);
+
+$particle->setAccessToken($pieces[0]);
+if(count($pieces) == 2) {
+  $particle->setProductSlug($pieces[1]);
+}
 
 ?>
 <div class="container">
@@ -28,7 +33,7 @@ $spark->setAccessToken($_SESSION['accessToken']);
 
 <div class="container">
 <?php
-if($spark->listDevices() == true)
+if($particle->listDevices() == true)
 {
   ?>
 <table class="table table-striped">
@@ -40,7 +45,22 @@ if($spark->listDevices() == true)
       Name
     </th>
     <th>
-      Last Heard
+      Last Ip
+    </th>
+    <th>
+      Last Handshake
+    </th>
+    <th>
+      Firmware Product Id
+    </th>
+    <th>
+      Firmware Version
+    </th>
+    <th>
+      Quarantined
+    </th>
+    <th>
+      Denied
     </th>
     <th>
       Connected
@@ -51,8 +71,9 @@ if($spark->listDevices() == true)
   </tr>
 
 <?php
-    foreach ($spark->getResult() as $device) {
+    foreach ($particle->getResult() as $device) {
 ?>
+
       <tr>
         <td>
           <?php echo $device['id']; ?>
@@ -61,19 +82,34 @@ if($spark->listDevices() == true)
           <?php echo $device['name']; ?>
         </td>
         <td>
-          <?php echo $device['last_heard']; ?>
+          <?php echo $device['last_ip_address']; ?>
+        </td>
+        <td>
+          <?php echo $device['last_handshake_at']; ?>
+        </td>
+        <td>
+          <?php echo $device['firmware_product_id']; ?>
+        </td>
+        <td>
+          <?php echo $device['firmware_version']; ?>
+        </td>
+        <td>
+          <?php echo $device['quarantined'] ? $device['quarantined'] : "no"; ?>
+        </td>
+        <td>
+          <?php echo $device['denied'] ? $device['denied'] : "no"; ?>
         </td>
         <td>
           <?php
-            if($device['connected'])
-              echo "<span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\"></span>";
+            if($device['connected'] || $device['online'])
+              echo "<span class=\"glyphicon glyphicon-eye-open\" aria-hidden=\"true\"></span> (YES)";
             else
-              echo "<span class=\"glyphicon glyphicon-eye-close\" aria-hidden=\"true\"></span>";
+              echo "<span class=\"glyphicon glyphicon-eye-close\" aria-hidden=\"true\"></span> (NO)";
           ?>
         </td>
         <td>
           <?php
-            if($device['connected'])
+            if($device['connected'] || $device['online'])
             {
           ?>
           <a href="?p=device&deviceID=<?php echo $device['id']; ?>"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> View Device</a><br/>
@@ -101,7 +137,22 @@ if($spark->listDevices() == true)
       Name
     </th>
     <th>
-      Last Heard
+      Last Ip
+    </th>
+    <th>
+      Last Handshake
+    </th>
+    <th>
+      Firmware Product Id
+    </th>
+    <th>
+      Firmware Version
+    </th>
+    <th>
+      Quarantined
+    </th>
+    <th>
+      Denied
     </th>
     <th>
       Connected
@@ -116,7 +167,7 @@ if($spark->listDevices() == true)
 }
 else
 {
-    echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $spark->getError() . ". Source: " . $spark->getErrorSource() . "</div>";
+    echo "<div class=\"alert alert-warning\" role=\"alert\">ERROR: " . $particle->getError() . ". Source: " . $particle->getErrorSource() . "</div>";
 }
 ?>
   </div>

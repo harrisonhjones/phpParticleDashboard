@@ -10,9 +10,9 @@ error_reporting(-1);
     <div style="text-align: center" class="navbar navbar-fixed-bottom">
         Written by Harrison H. Jones
         <br/>
-        <a href="https://github.com/harrisonhjones/phpSparkDashboard">Fork on GitHub</a>
+        <a href="https://github.com/harrisonhjones/phpParticleDashboard">Fork on GitHub</a>
         <br/>
-        Version 0.1.1
+        Version 0.2
     </div>
 
     <!-- Bootstrap core JavaScript
